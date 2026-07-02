@@ -4,17 +4,69 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { siteData } from "@/data/site-data";
-import EditorialLink from "../editorial-link";
-import MagneticButton from "../magnetic-button";
+import { Mail, Terminal, FileText } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Custom SVG Brand Icons to bypass Lucide v0.400+ brand icon deprecation
+const GithubIcon = ({ size = 22, strokeWidth = 1.5 }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={strokeWidth}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    style={{ display: "block" }}
+  >
+    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+  </svg>
+);
+
+const LinkedinIcon = ({ size = 22, strokeWidth = 1.5 }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={strokeWidth}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    style={{ display: "block" }}
+  >
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+    <rect x="2" y="9" width="4" height="12" />
+    <circle cx="4" cy="4" r="2" />
+  </svg>
+);
+
+const XIcon = ({ size = 22, strokeWidth = 1.5 }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={strokeWidth}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    style={{ display: "block" }}
+  >
+    <path d="M4 4l11.733 16h4.267l-11.733 -16z" />
+    <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
+  </svg>
+);
+
 const links = [
-  { label: "Email", href: `mailto:${siteData.social.email}` },
-  { label: "GitHub", href: siteData.social.github },
-  { label: "LinkedIn", href: siteData.social.linkedin },
-  { label: "LeetCode", href: siteData.social.leetcode },
-  { label: "Resume", href: siteData.social.resume },
+  { label: "Email", href: `mailto:${siteData.social.email}`, Icon: Mail },
+  { label: "GitHub", href: siteData.social.github, Icon: GithubIcon },
+  { label: "LinkedIn", href: siteData.social.linkedin, Icon: LinkedinIcon },
+  { label: "X", href: siteData.social.twitter, Icon: XIcon },
+  { label: "LeetCode", href: siteData.social.leetcode, Icon: Terminal },
+  { label: "Resume", href: siteData.social.resume, Icon: FileText },
 ];
 
 export default function Contact() {
@@ -55,10 +107,10 @@ export default function Contact() {
             ease: "power3.out",
             scrollTrigger: {
               trigger: el,
-              start: "top 90%",
+              start: "top 95%",
               toggleActions: "play none none none",
             },
-            delay: i * 0.08,
+            delay: i * 0.06,
           }
         );
       });
@@ -96,38 +148,41 @@ export default function Contact() {
         <div
           style={{
             maxWidth: "600px",
+            width: "100%",
           }}
         >
-          {links.map((link, i) => (
-            <div
-              key={link.label}
-              ref={(el) => { linkRefs.current[i] = el; }}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: "20px 0",
-                borderBottom: "1px solid var(--border)",
-                opacity: 0,
-              }}
-            >
-              <MagneticButton range={40} strength={0.3}>
-                <EditorialLink href={link.href}>
+          {links.map((link, i) => {
+            const Icon = link.Icon;
+            const isMail = link.href.startsWith("mailto:");
+            return (
+              <div
+                key={link.label}
+                ref={(el) => {
+                  linkRefs.current[i] = el;
+                }}
+                style={{ opacity: 0 }}
+              >
+                <a
+                  href={link.href}
+                  target={isMail ? undefined : "_blank"}
+                  rel={isMail ? undefined : "noopener noreferrer"}
+                  className="contact-row"
+                >
+                  <div className="contact-row-icon">
+                    <Icon size={22} strokeWidth={1.5} />
+                  </div>
+                  <span className="contact-row-label">{link.label}</span>
                   <span
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontSize: "clamp(1.125rem, 2.5vw, 1.75rem)",
-                      fontWeight: 500,
-                      letterSpacing: "-0.01em",
-                      textTransform: "none",
-                    }}
+                    className="contact-row-arrow"
+                    aria-hidden="true"
+                    style={{ fontFamily: "var(--font-mono)", fontSize: "0.875rem" }}
                   >
-                    {link.label}
+                    ↗
                   </span>
-                </EditorialLink>
-              </MagneticButton>
-            </div>
-          ))}
+                </a>
+              </div>
+            );
+          })}
         </div>
 
         {/* Footer */}
