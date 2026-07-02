@@ -1,49 +1,445 @@
+/* ═══════════════════════════════════════════════════════════
+   UJJWAL VERMA — PORTFOLIO
+   Editorial Brutalism × Swiss Modernism × Digital Fashion
+   ═══════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500&display=swap');
+
+/* ─── Display Font ─── */
+/* Using Inter for both display and body — the weight contrast
+   creates the editorial feel. Inter's wide weight range (300–900)
+   works perfectly for Swiss typography systems. */
+
+/* ─── Design Tokens ─── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Colors — Monochrome only */
+  --bg: #0A0A0A;
+  --surface: #101010;
+  --surface-elevated: #161616;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.15);
+  --text: #F5F5F5;
+  --text-secondary: #9A9A9A;
+  --text-tertiary: #5A5A5A;
+  --accent: #FFFFFF;
+
+  /* Typography */
+  --font-display: 'Inter', -apple-system, sans-serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Spacing — Swiss grid */
+  --grid-unit: 8px;
+  --section-gap: clamp(120px, 15vh, 200px);
+  --container-max: 1400px;
+  --container-pad: clamp(24px, 5vw, 80px);
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+  --duration: 0.8s;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── Reset ─── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-size: 16px;
+  scroll-behavior: auto; /* Lenis handles smooth scroll */
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+::selection {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--text);
+}
+
+/* ─── Scrollbar — invisible, minimal ─── */
+::-webkit-scrollbar { width: 0; }
+body { scrollbar-width: none; }
+
+/* ─── Film Grain Overlay — Animated (Layer 3) ─── */
+@keyframes grain-animation {
+  0%, 100% { transform:translate(0, 0); }
+  10% { transform:translate(-1%, -2%); }
+  20% { transform:translate(-3%, 1%); }
+  30% { transform:translate(2%, -4%); }
+  40% { transform:translate(-4%, 3%); }
+  50% { transform:translate(1%, -1%); }
+  60% { transform:translate(-2%, 4%); }
+  70% { transform:translate(3%, -2%); }
+  80% { transform:translate(-1%, 2%); }
+  90% { transform:translate(4%, -3%); }
+}
+
+.grain-overlay {
+  position: fixed;
+  inset: -100px;
+  pointer-events: none;
+  z-index: 10000;
+  opacity: 0.03;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 300px;
+  animation: grain-animation 6s steps(8) infinite;
+}
+
+/* ─── Container ─── */
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+}
+
+/* ─── Section base ─── */
+.section {
+  position: relative;
+  padding: var(--section-gap) 0;
+}
+
+/* ─── Swiss Grid Lines — visible layout system ─── */
+.grid-lines {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+}
+
+.grid-lines__inner {
+  width: 100%;
+  max-width: var(--container-max);
+  padding: 0 var(--container-pad);
+  display: flex;
+  justify-content: space-between;
   height: 100%;
 }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+.grid-lines__line {
+  width: 1px;
+  height: 100%;
+  background: var(--border);
+  opacity: 0.4;
 }
 
-body {
-  min-height: 100%;
+/* ─── Section Divider ─── */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ─── Typography — Editorial, Massive ─── */
+.display-hero {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 10vw, 9rem);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.display-xl {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 7vw, 6rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.display-lg {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 3.5rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+
+.display-md {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.5vw, 2rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.body-lg {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  line-height: 1.7;
+  color: var(--text-secondary);
+  font-weight: 300;
+}
+
+.body {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+/* Mono labels — Swiss metadata */
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.label--accent {
+  color: var(--text-secondary);
+}
+
+/* Coordinates / metadata style */
+.meta {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+}
+
+/* ─── Editorial Lines ─── */
+.line-h {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+}
+
+.line-v {
+  width: 1px;
+  height: 100%;
+  background: var(--border);
+}
+
+/* ─── Image Treatment — B&W, Editorial ─── */
+.editorial-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%) contrast(1.1);
+  transition: filter 1.2s var(--ease-out-expo);
+}
+
+.editorial-img:hover {
+  filter: grayscale(100%) contrast(1.2) brightness(1.05);
+}
+
+/* ─── Editorial Card ─── */
+.editorial-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: clamp(24px, 3vw, 48px);
+  position: relative;
+  transition: border-color 0.6s var(--ease-out-expo);
+}
+
+.editorial-card:hover {
+  border-color: var(--border-strong);
+}
+
+/* ─── Micro label with line ─── */
+.section-label {
   display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 48px;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+.section-label__line {
+  width: 48px;
+  height: 1px;
+  background: var(--text-tertiary);
 }
 
-a {
-  color: inherit;
+.section-label__text {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.section-label__index {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  color: var(--text-tertiary);
+  opacity: 0.6;
+}
+
+/* ─── Reveal animation states ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(60px);
+  will-change: transform, opacity;
+}
+
+.reveal--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-line {
+  overflow: hidden;
+}
+
+.reveal-line__inner {
+  transform: translateY(110%);
+  will-change: transform;
+}
+
+/* ─── Hover distort for typography ─── */
+.hover-distort {
+  transition: letter-spacing 0.6s var(--ease-out-expo),
+              font-weight 0.6s var(--ease-out-expo);
+}
+
+.hover-distort:hover {
+  letter-spacing: 0.02em;
+}
+
+/* ─── Tactile Button ─── */
+.btn-editorial {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
   text-decoration: none;
+  transition: color 0.4s ease, border-color 0.4s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+.btn-editorial:hover {
+  color: var(--text);
+  border-color: var(--text);
+}
+
+.btn-editorial__arrow {
+  display: inline-block;
+  transition: transform 0.4s var(--ease-out-expo);
+}
+
+.btn-editorial:hover .btn-editorial__arrow {
+  transform: translateX(6px);
+}
+
+/* ─── Nav responsive ─── */
+.nav-desktop {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 3vw, 40px);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 1024px) {
+  /* Product grid stacks */
+  #products .editorial-card,
+  #products > div > div > div {
+    grid-template-columns: 1fr !important;
   }
 }
+
+@media (max-width: 768px) {
+  :root {
+    --section-gap: clamp(80px, 12vh, 120px);
+  }
+
+  .display-hero {
+    font-size: clamp(2.5rem, 12vw, 4.5rem);
+  }
+
+  .grid-lines { display: none; }
+
+  /* Nav links hide on mobile */
+  .nav-desktop { display: none; }
+
+  /* Thinking cards go single column */
+  #thinking > div > div:last-child {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Learning dashboard single column */
+  #learning > div > div:last-child {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .display-hero {
+    font-size: clamp(2rem, 14vw, 3.5rem);
+  }
+
+  .display-xl {
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+}
+
+/* ─── Editorial Link Styling ─── */
+.editorial-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  text-decoration: none !important;
+  transition: color 0.15s ease;
+  cursor: pointer;
+}
+
+.editorial-link:hover {
+  color: var(--text) !important;
+}
+
+.editorial-link:hover .link-text {
+  font-style: italic !important;
+}
+
+.editorial-link .link-arrow {
+  display: inline-block;
+  font-style: normal !important;
+  opacity: 0;
+  transform: translate(-3px, 3px);
+  transition: opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.editorial-link:hover .link-arrow {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+
