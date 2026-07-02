@@ -244,10 +244,11 @@ export const siteData = {
     ],
   },
   social: {
-    email: "ujjwalverma@email.com",
+    email: "ujjwal.verma1905@gmail.com",
     github: "https://github.com/ujjwalverma19",
-    linkedin: "https://linkedin.com/in/ujjwalverma",
+    linkedin: "https://www.linkedin.com/in/ujjwalv19/",
+    twitter: "https://x.com/UJJWALV75382953",
     leetcode: "https://leetcode.com/u/ujjwal_verma19/",
-    resume: "/resume.pdf",
+    resume: "/resume.pdf?v=1.0.0",
   },
 };
