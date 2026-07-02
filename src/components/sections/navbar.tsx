@@ -65,16 +65,45 @@ export default function Navbar() {
         <a
           href="#"
           style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "0.75rem",
-            fontWeight: 600,
-            color: "var(--text)",
+            display: "flex",
+            alignItems: "center",
+            gap: "12px",
             textDecoration: "none",
-            letterSpacing: "0.15em",
-            textTransform: "uppercase",
+            color: "var(--text)",
           }}
         >
-          UJJWAL VERMA
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 28 28"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            style={{ display: "block" }}
+          >
+            <g stroke="currentColor" strokeWidth="1.8" strokeLinecap="square" strokeLinejoin="miter">
+              {/* U Shape */}
+              <path d="M 7 6 L 7 15 C 7 19 9.5 20.5 12.5 20.5 C 15.5 20.5 15.5 19 15.5 15 L 15.5 6" fill="none" />
+              {/* V Shape */}
+              <path d="M 17 6 L 21 20.5 L 25 6" fill="none" />
+              
+              {/* Serif Details */}
+              <path d="M 5.5 6 L 8.5 6" strokeWidth="1" />
+              <path d="M 14 6 L 17 6" strokeWidth="1" />
+              <path d="M 15.5 6 L 18.5 6" strokeWidth="1" />
+              <path d="M 23.5 6 L 26.5 6" strokeWidth="1" />
+            </g>
+          </svg>
+          <span
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "0.75rem",
+              fontWeight: 600,
+              letterSpacing: "0.15em",
+              textTransform: "uppercase",
+            }}
+          >
+            U.V.
+          </span>
         </a>
 
         {/* Nav Links */}
