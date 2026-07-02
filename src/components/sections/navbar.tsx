@@ -64,10 +64,10 @@ export default function Navbar() {
         {/* Logo — Monogram */}
         <a
           href="#"
+          aria-label="Ujjwal Verma Home"
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "12px",
             textDecoration: "none",
             color: "var(--text)",
           }}
@@ -93,17 +93,6 @@ export default function Navbar() {
               <path d="M 23.5 6 L 26.5 6" strokeWidth="1" />
             </g>
           </svg>
-          <span
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "0.75rem",
-              fontWeight: 600,
-              letterSpacing: "0.15em",
-              textTransform: "uppercase",
-            }}
-          >
-            U.V.
-          </span>
         </a>
 
         {/* Nav Links */}
