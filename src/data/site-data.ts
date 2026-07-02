@@ -249,6 +249,6 @@ export const siteData = {
     linkedin: "https://www.linkedin.com/in/ujjwalv19/",
     twitter: "https://x.com/UJJWALV75382953",
     leetcode: "https://leetcode.com/u/ujjwal_verma19/",
-    resume: "/resume.pdf?v=1.0.0",
+    resume: "/resume.pdf?v=1.0.1",
   },
 };
