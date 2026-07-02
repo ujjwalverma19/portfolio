@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { siteData } from "@/data/site-data";
-import { Mail, Terminal, FileText } from "lucide-react";
+import { Mail, Terminal, FileText, X } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -73,6 +73,74 @@ export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
   const linkRefs = useRef<(HTMLDivElement | null)[]>([]);
   const headlineRef = useRef<HTMLHeadingElement>(null);
+
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+  const [showCopiedToast, setShowCopiedToast] = useState(false);
+
+  const modalOverlayRef = useRef<HTMLDivElement>(null);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const copyBtnRef = useRef<HTMLButtonElement>(null);
+  const openBtnRef = useRef<HTMLAnchorElement>(null);
+
+  // Esc key listener and focus trap
+  useEffect(() => {
+    if (!isEmailModalOpen) return;
+
+    const previousActiveElement = document.activeElement as HTMLElement;
+
+    // Focus the close button initially
+    closeBtnRef.current?.focus();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsEmailModalOpen(false);
+        return;
+      }
+
+      if (e.key === "Tab") {
+        const focusableElements = [
+          closeBtnRef.current,
+          copyBtnRef.current,
+          openBtnRef.current,
+        ].filter(Boolean) as HTMLElement[];
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstElement) {
+            lastElement.focus();
+            e.preventDefault();
+          }
+        } else {
+          if (document.activeElement === lastElement) {
+            firstElement.focus();
+            e.preventDefault();
+          }
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    // Disable body scroll when modal is open
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "";
+      if (previousActiveElement) {
+        previousActiveElement.focus();
+      }
+    };
+  }, [isEmailModalOpen]);
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(siteData.social.email).then(() => {
+      setShowCopiedToast(true);
+      setTimeout(() => setShowCopiedToast(false), 2000);
+    });
+  };
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -167,6 +235,12 @@ export default function Contact() {
                   target={isMail ? undefined : "_blank"}
                   rel={isMail ? undefined : "noopener noreferrer"}
                   className="contact-row"
+                  onClick={(e) => {
+                    if (link.label === "Email") {
+                      e.preventDefault();
+                      setIsEmailModalOpen(true);
+                    }
+                  }}
                 >
                   <div className="contact-row-icon">
                     <Icon size={22} strokeWidth={1.5} />
@@ -217,6 +291,64 @@ export default function Contact() {
             <div>NIET · CGPA {siteData.education.cgpa}</div>
           </div>
         </footer>
+      </div>
+
+      {/* Email Centered Modal Overlay */}
+      <div
+        ref={modalOverlayRef}
+        className={`email-modal-overlay ${isEmailModalOpen ? "is-open" : ""}`}
+        onClick={(e) => {
+          if (e.target === modalOverlayRef.current) {
+            setIsEmailModalOpen(false);
+          }
+        }}
+      >
+        <div
+          className="email-modal-container"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="email-modal-title-id"
+        >
+          <button
+            ref={closeBtnRef}
+            className="email-modal-close-btn"
+            onClick={() => setIsEmailModalOpen(false)}
+            aria-label="Close modal"
+          >
+            <X size={18} strokeWidth={1.5} />
+          </button>
+
+          <div className="email-modal-title" id="email-modal-title-id">
+            Ujjwal Verma
+          </div>
+
+          <div className="email-modal-meta">Email Address</div>
+          <div className="email-modal-email-val">
+            <span>{siteData.social.email}</span>
+          </div>
+
+          <div className="email-modal-actions">
+            <button
+              ref={copyBtnRef}
+              className="email-modal-btn"
+              onClick={handleCopyEmail}
+            >
+              Copy Email
+            </button>
+            <a
+              ref={openBtnRef}
+              href={`mailto:${siteData.social.email}`}
+              className="email-modal-btn primary"
+              onClick={() => setIsEmailModalOpen(false)}
+            >
+              Open Mail
+            </a>
+          </div>
+
+          <div className={`email-modal-toast ${showCopiedToast ? "show" : ""}`}>
+            Copied!
+          </div>
+        </div>
       </div>
     </section>
   );
