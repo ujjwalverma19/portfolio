@@ -669,6 +669,47 @@ body { scrollbar-width: none; }
   opacity: 1;
 }
 
+/* ─── Capabilities Grid Styling ─── */
+.capabilities-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+}
+
+@media (max-width: 1024px) {
+  .capabilities-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px 32px;
+  }
+}
+
+@media (max-width: 640px) {
+  .capabilities-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.capabilities-column {
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+  padding-left: 24px;
+}
+
+@media (max-width: 640px) {
+  .capabilities-column {
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-left: 0;
+    padding-top: 24px;
+  }
+}
+
+.capability-item:hover {
+  color: var(--text) !important;
+  transform: translateX(4px);
+}
+
+
 
 
 

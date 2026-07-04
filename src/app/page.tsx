@@ -6,6 +6,7 @@ import Hero from "@/components/sections/hero";
 import Journey from "@/components/sections/journey";
 import Products from "@/components/sections/products";
 import ProductThinking from "@/components/sections/product-thinking";
+import Capabilities from "@/components/sections/capabilities";
 import LearningDashboard from "@/components/sections/learning-dashboard";
 import Contact from "@/components/sections/contact";
 import EditorialBackground from "@/components/sections/editorial-background";
@@ -28,6 +29,8 @@ export default function Home() {
       <Products />
       <div className="divider" />
       <ProductThinking />
+      <div className="divider" />
+      <Capabilities />
       <div className="divider" />
       <LearningDashboard />
       <div className="divider" />

@@ -44,7 +44,7 @@ export default function LearningDashboard() {
       <div className="container">
         {/* Section label */}
         <div className="section-label">
-          <span className="section-label__index">04</span>
+          <span className="section-label__index">05</span>
           <div className="section-label__line" />
           <span className="section-label__text">Learning</span>
         </div>

@@ -192,7 +192,7 @@ export default function Contact() {
       <div className="container">
         {/* Section label */}
         <div className="section-label">
-          <span className="section-label__index">05</span>
+          <span className="section-label__index">06</span>
           <div className="section-label__line" />
           <span className="section-label__text">Contact</span>
         </div>
