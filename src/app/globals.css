@@ -709,6 +709,121 @@ body { scrollbar-width: none; }
   transform: translateX(4px);
 }
 
+/* ─── Contact Form Styling ─── */
+.contact-form-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-tertiary);
+}
+
+.contact-form-input {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 16px;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  outline: none;
+  border-radius: 0 !important;
+  -webkit-appearance: none;
+  transition: border-color 200ms ease, color 200ms ease;
+}
+
+.contact-form-input::placeholder {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.contact-form-input:focus {
+  border-color: var(--text);
+}
+
+.contact-form-input.error {
+  border-color: #E03E3E;
+}
+
+.contact-form-err-msg {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: #E03E3E;
+  margin-top: 4px;
+}
+
+.contact-form-submit-btn {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 18px 36px;
+  cursor: pointer;
+  border-radius: 0 !important;
+  transition: background 250ms cubic-bezier(0.16, 1, 0.3, 1),
+              color 250ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 250ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.contact-form-submit-btn:hover:not(:disabled) {
+  background: var(--text);
+  color: #0A0A0A;
+  border-color: var(--text);
+}
+
+.contact-form-submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.contact-form-toast {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  max-width: 360px;
+  padding: 16px 24px;
+  z-index: 2000;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.contact-form-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.contact-form-toast.success {
+  background: var(--text);
+  color: #0A0A0A;
+  border: 1px solid var(--text);
+}
+
+.contact-form-toast.error {
+  background: #E03E3E;
+  color: #FFFFFF;
+  border: 1px solid #E03E3E;
+}
+
+@media (max-width: 640px) {
+  .contact-form-toast {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    max-width: none;
+    text-align: center;
+  }
+}
+
+
 
 
 

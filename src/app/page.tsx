@@ -9,6 +9,7 @@ import ProductThinking from "@/components/sections/product-thinking";
 import Capabilities from "@/components/sections/capabilities";
 import LearningDashboard from "@/components/sections/learning-dashboard";
 import Contact from "@/components/sections/contact";
+import ContactForm from "@/components/sections/contact-form";
 import EditorialBackground from "@/components/sections/editorial-background";
 import CustomCursor from "@/components/custom-cursor";
 
@@ -35,6 +36,8 @@ export default function Home() {
       <LearningDashboard />
       <div className="divider" />
       <Contact />
+      <div className="divider" />
+      <ContactForm />
     </SmoothScroll>
   );
 }

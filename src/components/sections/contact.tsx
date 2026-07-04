@@ -258,39 +258,6 @@ export default function Contact() {
             );
           })}
         </div>
-
-        {/* Footer */}
-        <footer
-          style={{
-            marginTop: "clamp(80px, 12vh, 160px)",
-            paddingTop: "24px",
-            borderTop: "1px solid var(--border)",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-end",
-            flexWrap: "wrap",
-            gap: "16px",
-          }}
-        >
-          <div>
-            <div
-              className="meta"
-              style={{ marginBottom: "8px" }}
-            >
-              © UJJWAL VERMA · ALL RIGHTS RESERVED
-            </div>
-            <div className="meta">
-              DESIGNED & BUILT WITH INTENTION
-            </div>
-          </div>
-
-          <div className="meta" style={{ textAlign: "right" }}>
-            <div style={{ marginBottom: "8px" }}>
-              B.TECH INFORMATION TECHNOLOGY
-            </div>
-            <div>NIET · CGPA {siteData.education.cgpa}</div>
-          </div>
-        </footer>
       </div>
 
       {/* Email Centered Modal Overlay */}
