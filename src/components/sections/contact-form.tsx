@@ -12,6 +12,7 @@ interface FormFields {
   email: string;
   subject: string;
   message: string;
+  honeypot: string;
 }
 
 export default function ContactForm() {
@@ -25,6 +26,7 @@ export default function ContactForm() {
     email: "",
     subject: "",
     message: "",
+    honeypot: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -108,16 +110,37 @@ export default function ContactForm() {
 
   const validate = (): boolean => {
     const tempErrors: Partial<FormFields> = {};
-    if (!fields.name.trim()) tempErrors.name = "Full Name is required.";
-    
-    if (!fields.email.trim()) {
+
+    const nameVal = fields.name.trim();
+    const emailVal = fields.email.trim();
+    const subjectVal = fields.subject.trim();
+    const messageVal = fields.message.trim();
+
+    if (!nameVal) {
+      tempErrors.name = "Full Name is required.";
+    } else if (nameVal.length > 100) {
+      tempErrors.name = "Name must be less than 100 characters.";
+    }
+
+    if (!emailVal) {
       tempErrors.email = "Email Address is required.";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) {
+    } else if (emailVal.length > 100) {
+      tempErrors.email = "Email must be less than 100 characters.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
       tempErrors.email = "Please enter a valid email address.";
     }
 
-    if (!fields.subject.trim()) tempErrors.subject = "Subject is required.";
-    if (!fields.message.trim()) tempErrors.message = "Message is required.";
+    if (!subjectVal) {
+      tempErrors.subject = "Subject is required.";
+    } else if (subjectVal.length > 200) {
+      tempErrors.subject = "Subject must be less than 200 characters.";
+    }
+
+    if (!messageVal) {
+      tempErrors.message = "Message is required.";
+    } else if (messageVal.length > 5000) {
+      tempErrors.message = "Message cannot exceed 5000 characters.";
+    }
 
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
@@ -127,13 +150,34 @@ export default function ContactForm() {
     e.preventDefault();
     if (!validate()) return;
 
+    // Honeypot spam check - silent success simulation
+    if (fields.honeypot.trim() !== "") {
+      setLoading(true);
+      setTimeout(() => {
+        setToast({
+          show: true,
+          message: "Thanks for reaching out. Your message has been sent successfully. I'll get back to you as soon as possible.",
+          type: "success",
+        });
+        setFields({ name: "", email: "", subject: "", message: "", honeypot: "" });
+        setLoading(false);
+      }, 1000);
+      return;
+    }
+
     setLoading(true);
 
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(fields),
+        body: JSON.stringify({
+          name: fields.name.trim(),
+          email: fields.email.trim(),
+          subject: fields.subject.trim(),
+          message: fields.message.trim(),
+          honeypot: fields.honeypot,
+        }),
       });
 
       const data = await response.json();
@@ -141,25 +185,25 @@ export default function ContactForm() {
       if (response.ok && data.success) {
         setToast({
           show: true,
-          message: "Thank you. Your message has been sent successfully.",
+          message: "Thanks for reaching out. Your message has been sent successfully. I'll get back to you as soon as possible.",
           type: "success",
         });
-        setFields({ name: "", email: "", subject: "", message: "" });
+        setFields({ name: "", email: "", subject: "", message: "", honeypot: "" });
       } else {
         throw new Error(data.error || "Something went wrong.");
       }
     } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : "Failed to send message. Please try again.";
+      console.error(err);
       setToast({
         show: true,
-        message: errorMessage,
+        message: "Something went wrong. Please try again in a few moments.",
         type: "error",
       });
     } finally {
       setLoading(false);
       setTimeout(() => {
         setToast((prev) => ({ ...prev, show: false }));
-      }, 4000);
+      }, 5000);
     }
   };
 
@@ -205,6 +249,18 @@ export default function ContactForm() {
             opacity: 0,
           }}
         >
+          {/* Honeypot field (hidden from screen readers and normal users) */}
+          <div style={{ display: "none" }} aria-hidden="true">
+            <input
+              type="text"
+              name="honeypot"
+              value={fields.honeypot}
+              onChange={handleChange}
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </div>
+
           {/* Full Name */}
           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
             <label htmlFor="form-name" className="contact-form-label">
@@ -288,7 +344,7 @@ export default function ContactForm() {
               {loading ? "Sending..." : "Send Message →"}
             </button>
           </div>
-      </form>
+        </form>
 
         {/* Footer */}
         <footer

@@ -108,6 +108,19 @@ To configure the custom domains `ujjwal.studio` and `www.ujjwal.studio`:
 2. Add your custom domains.
 3. Configure the DNS records at your domain registrar as specified in the Vercel console.
 
+### Environment Variables
+
+The contact form relies on Resend for secure email delivery. You must define the following environment variable in Vercel:
+
+```
+RESEND_API_KEY=your_key_here
+```
+
+To add this in Vercel:
+1. Navigate to **Project Settings > Environment Variables**.
+2. Add a new variable with Key `RESEND_API_KEY` and Value `your_key_here`.
+3. Save and redeploy.
+
 ## Performance Optimizations
 
 - **Image Caching & Preloading**: Dynamic product screenshots are preloaded into memory when the section becomes visible, allowing instant rendering inside the lightbox without flashing or latency.
